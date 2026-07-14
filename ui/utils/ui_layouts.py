@@ -93,7 +93,7 @@ def box_list_diverse(layout, title, items, columns=2):
             elif objects[item].type == 'FONT':
                 flow.label(text=item, icon="OUTLINER_OB_FONT")
 
-            elif objects[item].type == 'GPENCIL':
+            elif objects[item].type == 'GREASEPENCIL':
                 flow.label(text=item, icon="OUTLINER_OB_GREASEPENCIL")
 
             elif objects[item].type == 'LATTICE':

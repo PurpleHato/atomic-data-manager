@@ -24,8 +24,8 @@ as determined by stats.users.py
 """
 
 import bpy
-from atomic_data_manager import config
-from atomic_data_manager.stats import users
+from .. import config
+from . import users
 
 
 def shallow(data):

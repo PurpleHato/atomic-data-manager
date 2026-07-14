@@ -67,7 +67,7 @@ def materials():
     # returns the keys of all unnamed materials in the project
     unnamed = []
 
-    for material in bpy.data.lights:
+    for material in bpy.data.materials:
         if re.match(r'.*\.\d\d\d$', material.name) or \
                 material.name.startswith("Material"):
             unnamed.append(material.name)

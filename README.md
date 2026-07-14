@@ -1,46 +1,43 @@
-[![atomic_combo_side_mono_dark1-min](https://remington.pro/wp-content/uploads/2019/08/atomic_combo_side_dark1_512px.png)](https://remington.pro/software/blender/atomic)
+# Atomic Data Manager
 
-[**Learn More About Atomic Data Manager on its Official Product Page**](https://remington.pro/software/blender/atomic)
+An intelligent data-block manager for Blender — rapidly clean unused data, inspect where data-blocks are used, view rich statistics, and catch missing files before they break a render.
 
+> **Unofficial fork, maintained by [Purple Hato](https://github.com/PurpleHato), updated for modern Blender (4.3 – 5.1.2+).**
+> This project is **not affiliated with, endorsed by, or associated with Remington Creative.** The original add-on (© 2019 Remington Creative, GPL-3.0) is no longer maintained and its product website is offline, so this fork keeps the tool working on current Blender releases. Full credit for the original work belongs to Remington Creative.
 
-## ENJOY A CLEANER PROJECT
-Atomic Data Manager offers Blender artists an intelligent data management solution. This feature-packed add-on provides artists with every tool they need to keep unwanted and unused data out of their Blender files. Even better, Atomic's real-time data analysis and automated data removal tools allow its users to clean their projects in a flash.
+## Features
 
-![spring_window_shaded-min](https://remington.pro/wp-content/uploads/2019/07/spring_window_shaded-min.jpg)
+- **Rapid cleaning** — *Nuke* (remove a whole category) or *Clean* (remove only unused data-blocks), per category: collections, images, lights, materials, node groups, particles, textures, worlds.
+- **Inspection tools** — see exactly where and how a data-block is used, with rename / replace / duplicate / delete and a fake-user toggle.
+- **Rich statistics** — per-category total / unused / unnamed / missing counts, plus blend-file size.
+- **Missing-file detection** — warned about missing image and library paths on load; reload or remove them in bulk.
+- **Pie menu** — drive common actions from a configurable hotkey (default `D`).
+- **Data security** — confirmation dialogs preview exactly what will be removed; undo supported.
 
+## Requirements
 
-## UNMATCHED FEATURE SET
+Blender **4.3 or newer** (developed and tested on 5.1.2). Earlier versions are not supported — the code uses Grease Pencil v3 identifiers introduced in 4.3.
 
-| Rapid Cleaning | Missing File Detection |
-|--|--|
-| With Atomic, you can clean your project files in a snap. Simply select a category and click the clean button. | Stop those pink textures! Atomic helps you restore missing project files before you even realize they're gone. |
+## Installation
 
-| Inspection Tools | Data Security |
-|--|--|
-| Find out where and how data-blocks are being used, so you can make manual adjustments on the fly. | Know what you're removing before its gone. Atomic offers reliable data security features to keep your projects safe. |
+Atomic Data Manager ships as a Blender **Extension**.
 
-| Rich Statistics | Compact Design |
-|--|--|
-| Get a detailed breakdown of the data being used in your Blender projects. Surprisingly interesting and useful! | Atomic's sleek user interface packs numerous powerful features into a convenient and easily accessible space.|
+1. Download `atomic_data_manager-2.0.0.zip` from the [releases page](https://github.com/PurpleHato/atomic-data-manager/releases).
+2. Blender → **Edit → Preferences → Extensions** → drop-down (∨) → **Install from Disk** → select the zip.
+3. Enable **Atomic Data Manager (2026 - Hato)**.
+4. Find it under **Properties → Scene**.
 
-#### Additional Features:
-Pie Menu Controls, Advanced Fake User Options, Mass Delete Categories, Undo Accidental Deletions, Save Data-Blocks, Delete Data-Blocks, Replace Data-Blocks, Rename Data-Blocks, Reload Missing Files, Remove Missing Files, Replace Missing Files, and Search for Missing Files.
+> The zip has `blender_manifest.toml` at its root (no wrapper folder) — that is correct for an extension; Blender creates the install folder from the manifest `id`.
 
+## What changed in 2.0.0
 
-## TAKE A VIDEO TOUR
-[![video-thumb](https://remington.pro/wp-content/uploads/2019/08/atomic_addon_tour_play_button-min.jpg)](https://remington.pro/software/blender/atomic/#tour)
+- Repackaged as a Blender 4.2+ **Extension** (`blender_manifest.toml`); minimum Blender raised to **4.3**.
+- Removed the bundled legacy auto-updater (incompatible with the Extension system — Blender's Extensions platform handles updates now).
+- Converted all internal imports to relative and re-keyed preferences off the live package name (required for the `bl_ext` extension namespace).
+- Fixed the Blender 5.0 compositor API change (`scene.node_tree` → `scene.compositing_node_tree`).
+- Fixed Grease Pencil v3 object-type detection and several long-standing bugs.
+- Version bumped to **2.0.0**.
 
-| Keep Your Projects Clean | Reduce File Sizes | Optimize for Render Farms |
-|--|--|--|
-| Everyone appreciates a clean project. Use Atomic's intelligent toolset to keep your projects looking spiffy. | Atomic reduces file sizes by removing unused data from your projects. That way, there's more space for other stuff! | Render farms prioritize smaller projects. Atomic can optimize your files so they render sooner! |
+## License
 
-
-## GET ATOMIC
-
-**Download:** [https://remington.pro/software/blender/atomic/](https://remington.pro/software/blender/atomic)
-
-**Older Versions:** [https://github.com/grantwilk/atomic-data-manager/releases](https://github.com/grantwilk/atomic-data-manager/releases)
-
-
-
-**Like the Add-on?** [Consider Supporting Remington Creative](https://remington.pro/support/)!
+GPL-3.0-or-later. See [`LICENSE.txt`](LICENSE.txt). Based on the original Atomic Data Manager © 2019 Remington Creative.

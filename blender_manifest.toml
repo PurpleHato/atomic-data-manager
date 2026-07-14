@@ -1,0 +1,27 @@
+schema_version = "1.0.0"
+
+id = "atomic_data_manager"
+version = "2.0.0"
+name = "Atomic Data Manager (2026 - Hato)"
+tagline = "An intelligent data manager for Blender."
+maintainer = "Purple Hato (from Remington Creative old source)"
+type = "add-on"
+
+# Official add-on tag; the panel registers under Properties > Scene.
+tags = ["Scene"]
+
+blender_version_min = "4.3.0"
+# No blender_version_max: target current/forward (5.1.2+).
+
+license = ["SPDX:GPL-3.0-or-later"]
+
+# stats/missing.py checks image/library file existence via os.path.isfile.
+permissions = ["files"]
+
+# Original copyright preserved (GPL v3 requires it); add the fork's copyright.
+copyright = [
+    "Copyright (C) 2019 Remington Creative",
+    "Copyright (C) 2026 Purple Hato",
+]
+
+website = "https://github.com/purplehato/atomic-data-manager"

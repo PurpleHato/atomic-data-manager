@@ -27,23 +27,22 @@ registration for all packages within the add-on.
 import bpy
 from bpy.utils import register_class
 from bpy.utils import unregister_class
-from atomic_data_manager import ops
-from atomic_data_manager import ui
-from atomic_data_manager.ui import inspect_ui
-from atomic_data_manager.updater import addon_updater_ops
+from . import ops
+from . import ui
+from .ui import inspect_ui
 
 bl_info = {
-    "name": "Atomic Data Manager",
-    "author": "Remington Creative",
-    "blender": (2, 80, 0),
-    "version": (1, 0, 3),
+    "name": "Atomic Data Manager (2026 - Hato)",
+    "author": "Purple Hato (from Remington Creative old source)",
+    "blender": (4, 3, 0),
+    "version": (2, 0, 0),
     "location": "Properties > Scene",
-    "category": "Remington Creative",
+    "category": "Scene",
     "description": "An Intelligent Data Manager for Blender.",
     "wiki_url":
         "https://remington.pro/software/blender/atomic",
     "tracker_url":
-        "https://github.com/grantwilk/atomic-data-manager/issues"
+        "https://github.com/purplehato/atomic-data-manager/issues"
 }
 
 
@@ -216,9 +215,6 @@ class ATOMIC_PG_main(bpy.types.PropertyGroup):
 
 
 def register():
-    # add-on updater registration
-    addon_updater_ops.register(bl_info)
-
     register_class(ATOMIC_PG_main)
     bpy.types.Scene.atomic = bpy.props.PointerProperty(type=ATOMIC_PG_main)
 
@@ -228,10 +224,6 @@ def register():
 
 
 def unregister():
-
-    # add-on updated unregistration
-    addon_updater_ops.unregister()
-
     # atomic package unregistration
     ui.unregister()
     ops.unregister()

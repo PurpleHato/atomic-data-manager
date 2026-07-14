@@ -28,7 +28,7 @@ import bpy
 
 def nuke_data(data):
     # removes all data-blocks from the indicated set of data
-    for key in data.keys():
+    for key in list(data.keys()):
         data.remove(data[key])
 
 

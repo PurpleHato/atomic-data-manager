@@ -33,6 +33,17 @@ a material would be searching for the image_materials() function.
 import bpy
 
 
+def _scene_compositor_tree(scene):
+    # returns the scene's compositor node tree, or None if it has none.
+    # Blender <5.0 exposes it as scene.node_tree; in 5.0+ compositor node
+    # trees became standalone data-blocks referenced via
+    # scene.compositing_node_tree (scene.node_tree was removed in 5.0).
+    tree = getattr(scene, "compositing_node_tree", None)
+    if tree is None:
+        tree = getattr(scene, "node_tree", None)
+    return tree
+
+
 def collection_all(collection_key):
     # returns a list of keys of every data-block that uses this collection
 
@@ -175,11 +186,12 @@ def image_compositors(image_key):
     # a list of node groups that use our image
     node_group_users = image_node_groups(image_key)
 
-    # if our compositor uses nodes and has a valid node tree
-    if bpy.context.scene.use_nodes and bpy.context.scene.node_tree:
+    # if the scene has a compositor node tree
+    compositor = _scene_compositor_tree(bpy.context.scene)
+    if compositor is not None:
 
         # check each node in the compositor
-        for node in bpy.context.scene.node_tree.nodes:
+        for node in compositor.nodes:
 
             # if the node is an image node with a valid image
             if hasattr(node, 'image') and node.image:
@@ -386,11 +398,12 @@ def node_group_compositors(node_group_key):
     # a list of node groups that use our node group
     node_group_users = node_group_node_groups(node_group_key)
 
-    # if our compositor uses nodes and has a valid node tree
-    if bpy.context.scene.use_nodes and bpy.context.scene.node_tree:
+    # if the scene has a compositor node tree
+    compositor = _scene_compositor_tree(bpy.context.scene)
+    if compositor is not None:
 
         # check each node in the compositor
-        for node in bpy.context.scene.node_tree.nodes:
+        for node in compositor.nodes:
 
             # if the node is a group and has a valid node tree
             if hasattr(node, 'node_tree') and node.node_tree:
@@ -561,10 +574,6 @@ def node_group_has_node_group(search_group_key, node_group_key):
         # if node is a node group and has a valid node tree
         if hasattr(node, 'node_tree') and node.node_tree:
 
-            if node.node_tree.name == "RG_MetallicMap":
-                print(node.node_tree.name)
-                print(node_group.name)
-
             # base case
             # if node group is our node group
             if node.node_tree.name == node_group.name:
@@ -678,11 +687,12 @@ def texture_compositor(texture_key):
     # a list of node groups that use our image
     node_group_users = texture_node_groups(texture_key)
 
-    # if our compositor uses nodes and has a valid node tree
-    if bpy.context.scene.use_nodes and bpy.context.scene.node_tree:
+    # if the scene has a compositor node tree
+    compositor = _scene_compositor_tree(bpy.context.scene)
+    if compositor is not None:
 
         # check each node in the compositor
-        for node in bpy.context.scene.node_tree.nodes:
+        for node in compositor.nodes:
 
             # if the node is an texture node with a valid texture
             if hasattr(node, 'texture') and node.texture:

@@ -26,14 +26,20 @@ some functions for syncing the preference properties with external factors.
 import bpy
 from bpy.utils import register_class
 from bpy.utils import unregister_class
-from atomic_data_manager import config
-from atomic_data_manager.updater import addon_updater_ops
+from .. import config
+
+# Root package of the add-on. For a Blender 4.2+ extension this is
+# "bl_ext.<repo>.atomic_data_manager"; for a legacy install it is
+# "atomic_data_manager". preferences_ui lives in the <root>/ui
+# subpackage, so strip the trailing ".ui" to recover the root name.
+ADDON_PACKAGE = __package__.rsplit(".", 1)[0]
+
 
 
 def set_enable_support_me_popup(value):
     # sets the value of the enable_support_me_popup boolean property
 
-    bpy.context.preferences.addons["atomic_data_manager"]\
+    bpy.context.preferences.addons[ADDON_PACKAGE]\
         .preferences.enable_support_me_popup = value
     copy_prefs_to_config(None, None)
     bpy.ops.wm.save_userpref()
@@ -42,7 +48,7 @@ def set_enable_support_me_popup(value):
 def set_last_popup_day(day):
     # sets the value of the last_popup_day float property
 
-    bpy.context.preferences.addons["atomic_data_manager"]\
+    bpy.context.preferences.addons[ADDON_PACKAGE]\
         .preferences.last_popup_day = day
     copy_prefs_to_config(None, None)
 
@@ -53,7 +59,7 @@ def copy_prefs_to_config(self, context):
 
     preferences = bpy.context.preferences
 
-    atomic_preferences = preferences.addons['atomic_data_manager']\
+    atomic_preferences = preferences.addons[ADDON_PACKAGE]\
         .preferences
 
     # visible atomic preferences
@@ -94,7 +100,7 @@ def copy_prefs_to_config(self, context):
 
 def update_pie_menu_hotkeys(self, context):
     preferences = bpy.context.preferences
-    atomic_preferences = preferences.addons['atomic_data_manager'] \
+    atomic_preferences = preferences.addons[ADDON_PACKAGE] \
         .preferences
 
     # add the hotkeys if the preference is enabled
@@ -158,7 +164,7 @@ def remove_pie_menu_hotkeys():
 
 # Atomic Data Manager Preference Panel UI
 class ATOMIC_PT_preferences_panel(bpy.types.AddonPreferences):
-    bl_idname = "atomic_data_manager"
+    bl_idname = ADDON_PACKAGE
 
     # visible atomic preferences
     enable_missing_file_warning: bpy.props.BoolProperty(
@@ -213,41 +219,6 @@ class ATOMIC_PT_preferences_panel(bpy.types.AddonPreferences):
 
     last_popup_day: bpy.props.FloatProperty(
         default=0
-    )
-
-    # add-on updater properties
-    auto_check_update: bpy.props.BoolProperty(
-        name="Auto-check for Update",
-        description="If enabled, auto-check for updates using an interval",
-        default=True,
-    )
-
-    updater_intrval_months: bpy.props.IntProperty(
-        name='Months',
-        description="Number of months between checking for updates",
-        default=0,
-        min=0,
-        max=6
-    )
-    updater_intrval_days: bpy.props.IntProperty(
-        name='Days',
-        description="Number of days between checking for updates",
-        default=7,
-        min=0,
-    )
-    updater_intrval_hours: bpy.props.IntProperty(
-        name='Hours',
-        description="Number of hours between checking for updates",
-        default=0,
-        min=0,
-        max=23
-    )
-    updater_intrval_minutes: bpy.props.IntProperty(
-        name='Minutes',
-        description="Number of minutes between checking for updates",
-        default=0,
-        min=0,
-        max=59
     )
 
     def draw(self, context):
@@ -320,9 +291,6 @@ class ATOMIC_PT_preferences_panel(bpy.types.AddonPreferences):
             self.pie_menu_shift = kmi.shift
 
         separator = layout.row()  # extra space
-
-        # add-on updater box
-        addon_updater_ops.update_settings_ui(self, context)
 
         # update config with any new preferences
         copy_prefs_to_config(None, None)
